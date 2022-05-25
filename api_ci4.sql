@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-05-2022 a las 22:19:11
+-- Tiempo de generación: 25-05-2022 a las 02:06:21
 -- Versión del servidor: 10.4.22-MariaDB
 -- Versión de PHP: 8.1.2
 
@@ -89,6 +89,7 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 CREATE TABLE `user` (
   `id` int(5) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
+  `username` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -99,8 +100,9 @@ CREATE TABLE `user` (
 -- Volcado de datos para la tabla `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `updated_at`, `created_at`) VALUES
-(9, 'Erikson Pacheco', 'epachecog@gmail.com', '$2y$10$09MfxOc5Nq7ikiQGqQLUn.HteX6ek3kOmXATWLPB8ZdZQmIBTq0qq', NULL, '2022-04-27 12:32:01');
+INSERT INTO `user` (`id`, `name`, `username`, `email`, `password`, `updated_at`, `created_at`) VALUES
+(9, 'Erikson Pacheco', 'noskire', 'epachecog@gmail.com', '$2y$10$09MfxOc5Nq7ikiQGqQLUn.HteX6ek3kOmXATWLPB8ZdZQmIBTq0qq', NULL, '2022-04-27 12:32:01'),
+(11, 'Erikson Pacheco', 'epachecog', 'ramon@pacheco.com', '$2y$10$PUsb0cKv6rGWDHUaYvqacOqXzhzrylfH4Pi2339a1IH4fqb7CGOeu', NULL, '2022-05-24 18:47:49');
 
 --
 -- Índices para tablas volcadas
@@ -126,7 +128,8 @@ ALTER TABLE `migrations`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD UNIQUE KEY `password` (`password`);
+  ADD UNIQUE KEY `password` (`password`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -148,7 +151,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de la tabla `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

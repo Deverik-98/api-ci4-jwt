@@ -10,7 +10,7 @@ class UserRules
     {
         try {
             $model = new UserModel();
-            $user = $model->findUserByEmailAddress($data['email']);
+            $user = $model->findUserByUserName($data['username']);
             return password_verify($data['password'], $user['password']);
         } catch (\Exception $e) {
             return false;

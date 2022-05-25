@@ -9,7 +9,7 @@ class UserModel extends Model
 {
     protected $table = 'user';
     protected $allowedFields = [
-        'name', 'email', 'password'
+        'name', 'username', 'email', 'password'
     ];
     protected $updatedField = 'updated_at';
 
@@ -41,6 +41,15 @@ class UserModel extends Model
 
         if (!$user) {
             throw new Exception('User does not exist for specified email address');
+        }
+        return $user;
+    }
+
+    public function findUserByUserName(string $userName) {
+        $user = $this->asArray()->where(['username' => $userName])->first();
+
+        if (!$user) {
+            throw new Exception('User does not exist for specified username');
         }
         return $user;
     }

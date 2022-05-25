@@ -12,6 +12,7 @@ class Auth extends BaseController
     {
         $rules = [
             'name' => 'required',
+            'username' => 'required|min_length[6]|max_length[10]',
             'email' => 'required|valid_email|is_unique[user.email]',
             'password' => 'required|min_length[8]|max_length[255]'
         ];
@@ -25,14 +26,14 @@ class Auth extends BaseController
         $userModel = new UserModel();
         $userModel->save($input);
 
-        return $this->getJWTForUser($input['email'], ResponseInterface::HTTP_CREATED);
+        return $this->getJWTForUser($input['username'], ResponseInterface::HTTP_CREATED);
     }
 
     public function login()
     {
         $rules = [
-            'email' => 'required|min_length[6]|max_length[50]|valid_email',
-            'password' => 'required|min_length[8]|max_length[255]|validateUser[email, password]'
+            'username' => 'required|min_length[6]|max_length[10]',
+            'password' => 'required|min_length[8]|max_length[255]|validateUser[username, password]'
         ];
 
         $errors = [
@@ -47,14 +48,14 @@ class Auth extends BaseController
             return $this->getResponse($this->validator->getErrors(), ResponseInterface::HTTP_BAD_REQUEST);
         }
 
-        return $this->getJWTForUser($input['email']);
+        return $this->getJWTForUser($input['username']);
     }
 
-    private function getJWTForUser(string $email, int $responseCode = ResponseInterface::HTTP_OK)
+    private function getJWTForUser(string $username, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {
             $model = new UserModel();
-            $user = $model->findUserByEmailAddress($email);
+            $user = $model->findUserByUserName($username);
             unset($user['password']);
 
             helper('jwt');
@@ -62,7 +63,7 @@ class Auth extends BaseController
             return $this->getResponse([
                 'message' => 'User authenticated successfully',
                 'user' => $user,
-                'access_token' => getSignedJWTForUser($email)
+                'access_token' => getSignedJWTForUser($username)
             ]);
         } catch (\Exception $e) {
             return $this->getResponse([

@@ -67,11 +67,11 @@ class Filters extends BaseConfig
      * @var array
      */
     public $filters = [
-        'auth' => [
+        /*'auth' => [
             'before' => [
                 'client/*',
                 'client'
             ]
-        ]
+        ]*/
     ];
 }
